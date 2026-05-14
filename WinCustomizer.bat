@@ -200,3 +200,141 @@ if "%uichoice%"=="0"  goto menu
 echo Scelta non valida.
 timeout /t 2 >nul
 goto ui_custom
+
+:performance
+cls
+echo ======================================================
+echo           Ottimizzazione performance - WinCustomizer
+echo ======================================================
+echo [1]  Attiva piano energetico "Prestazioni eccellenti"
+echo [2]  Disabilita limitazione energetica (Power throttling)
+echo [3]  Abilita modalità gioco (Game Mode)
+echo [4]  Disabilita Game DVR e barra dei giochi
+echo [5]  Ottimizza tempo di risposta applicazioni (WaitToKill)
+echo [6]  Disabilita indicizzazione ricerca (WSearch)
+echo [7]  Disabilita avvio rapido (Fast Startup)
+echo [8]  Disabilita effetti visivi per massime prestazioni
+echo [9]  Ottimizza priorità CPU per i programmi
+echo [10] Disabilita limitazione larghezza di banda di rete
+echo [11] Disabilita servizi sysmain (Superfetch)
+echo [12] Ottimizza cache del file system
+echo [13] Disabilita trasparenze della UI
+echo [14] Disabilita animazioni delle finestre
+echo [15] Aumenta priorità della GPU (Registry tweak)
+echo [16] Disabilita ibernazione (Libera RAM e spazio)
+echo [17] Disabilita avviso di spazio su disco insufficiente
+echo [18] Forza scaricamento delle DLL dalla RAM
+echo [19] Ottimizza tempo di avvio del BIOS (Post-boot)
+echo [20] Disabilita Kernel Debugging per velocità
+echo [21] Abilita Hardware Accelerated GPU Scheduling (HAGS)
+echo [0]  Torna al menu principale
+echo ======================================================
+set /p perfchoice=Seleziona un'operazione (0-21): 
+
+if "%perfchoice%"=="1"  powercfg /duplicatescheme e9a42b02-d5df-448d-aa00-03f14749eb61 & pause & goto performance
+if "%perfchoice%"=="2"  reg add "HKLM\SYSTEM\CurrentControlSet\Control\Power\PowerThrottling" /v "PowerThrottlingOff" /t REG_DWORD /d 1 /f & pause & goto performance
+if "%perfchoice%"=="3"  reg add "HKCU\Software\Microsoft\GameBar" /v "AllowAutoGameMode" /t REG_DWORD /d 1 /f & pause & goto performance
+if "%perfchoice%"=="4"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\GameDVR" /v "AppCaptureEnabled" /t REG_DWORD /d 0 /f & pause & goto performance
+if "%perfchoice%"=="5"  reg add "HKCU\Control Panel\Desktop" /v "WaitToKillAppTimeout" /t REG_SZ /d "2000" /f & pause & goto performance
+if "%perfchoice%"=="6"  sc stop "WSearch" & sc config "WSearch" start=disabled & pause & goto performance
+if "%perfchoice%"=="7"  reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Power" /v "HiberbootEnabled" /t REG_DWORD /d 0 /f & pause & goto performance
+if "%perfchoice%"=="8"  visualeffectsperfs.vbs & pause & goto performance
+if "%perfchoice%"=="9"  reg add "HKLM\SYSTEM\CurrentControlSet\Control\PriorityControl" /v "Win32PrioritySeparation" /t REG_DWORD /d 38 /f & pause & goto performance
+if "%perfchoice%"=="10" reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Psched" /v "NonBestEffortLimit" /t REG_DWORD /d 0 /f & pause & goto performance
+if "%perfchoice%"=="11" sc stop "SysMain" & sc config "SysMain" start=disabled & pause & goto performance
+if "%perfchoice%"=="12" reg add "HKLM\SYSTEM\CurrentControlSet\Control\FileSystem" /v "NtfsMemoryUsage" /t REG_DWORD /d 2 /f & pause & goto performance
+if "%perfchoice%"=="13" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v "EnableTransparency" /t REG_DWORD /d 0 /f & pause & goto performance
+if "%perfchoice%"=="14" reg add "HKCU\Control Panel\Desktop\WindowMetrics" /v "MinAnimate" /t REG_SZ /d "0" /f & pause & goto performance
+if "%perfchoice%"=="15" reg add "HKLM\SOFTWARE\Microsoft\Windows NT\CurrentVersion\Multimedia\SystemProfile\Tasks\Games" /v "GPU Priority" /t REG_DWORD /d 8 /f & pause & goto performance
+if "%perfchoice%"=="16" powercfg -h off & pause & goto performance
+if "%perfchoice%"=="17" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Policies\Explorer" /v "NoLowDiskSpaceChecks" /t REG_DWORD /d 1 /f & pause & goto performance
+if "%perfchoice%"=="18" reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Explorer" /v "AlwaysUnloadDll" /t REG_DWORD /d 1 /f & pause & goto performance
+if "%perfchoice%"=="19" reg add "HKLM\SYSTEM\CurrentControlSet\Control\Session Manager\Memory Management" /v "PrefetchVirtualAttributes" /t REG_DWORD /d 1 /f & pause & goto performance
+if "%perfchoice%"=="20" bcdedit /set debug off & pause & goto performance
+if "%perfchoice%"=="21" reg add "HKLM\SYSTEM\CurrentControlSet\Control\GraphicsDrivers" /v "HwSchMode" /t REG_DWORD /d 2 /f & pause & goto performance
+if "%perfchoice%"=="0"  goto menu
+
+echo Scelta non valida.
+timeout /t 2 >nul
+goto performance
+
+:app
+cls
+echo ======================================================
+echo               Gestione app - WinCustomizer
+echo ======================================================
+echo [1]  Rimuovi tutte le app sponsorizzate (Bloatware)
+echo [2]  Rimuovi Microsoft Solitaire Collection
+echo [3]  Rimuovi Skype
+echo [4]  Rimuovi Zune Video ^& Music
+echo [5]  Rimuovi Feedback Hub
+echo [6]  Rimuovi Microsoft Sticky Notes
+echo [7]  Rimuovi Get Help
+echo [8]  Rimuovi Office Hub (Get Office)
+echo [9]  Rimuovi Paint 3D
+echo [10] Rimuovi 3D Viewer
+echo [11] Rimuovi Weather (Meteo)
+echo [12] Rimuovi Your Phone (Il tuo telefono)
+echo [13] Installa Google Chrome
+echo [14] Installa Mozilla Firefox
+echo [15] Installa VLC Media Player
+echo [16] Installa 7-Zip
+echo [17] Installa Notepad++
+echo [18] Installa Visual Studio Code
+echo [19] Installa Discord
+echo [20] Installa Steam
+echo [21] Installa Spotify
+echo [22] Installa Adobe Acrobat Reader DC
+echo [23] Installa LibreOffice
+echo [24] Installa qBittorrent
+echo [25] Installa CPU-Z
+echo [26] Installa HWMonitor
+echo [27] Aggiorna tutte le app installate (via Winget)
+echo [28] Disabilita installazione automatica app suggerite
+echo [29] Disabilita "Esperienza di benvenuto" di Windows
+echo [30] Forza disinstallazione Microsoft OneDrive
+echo [31] Abilita installazione app da qualsiasi fonte
+echo [32] Pulisci installer orfani nella cartella MSI
+echo [33] Reinstalla Microsoft Store (In caso di errori)
+echo [0]  Torna al menu principale
+echo ======================================================
+set /p appchoice=Seleziona un'operazione (0-33): 
+
+:: Logica di esecuzione (Esempi principali)
+if "%appchoice%"=="1"  powershell -Command "Get-AppxPackage -AllUsers | Where-Object {$_.Name -match 'Advertising|FeedbackHub|Zune|OfficeHub'} | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="2"  powershell -Command "Get-AppxPackage *solitairecollection* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="3"  powershell -Command "Get-AppxPackage *skypeapp* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="4"  powershell -Command "Get-AppxPackage *zunevideo* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="5"  powershell -Command "Get-AppxPackage *feedback* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="6"  powershell -Command "Get-AppxPackage *stickynotes* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="7"  powershell -Command "Get-AppxPackage *gethelp* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="8"  powershell -Command "Get-AppxPackage *officehub* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="9"  powershell -Command "Get-AppxPackage *mspaint* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="10" powershell -Command "Get-AppxPackage *3dviewer* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="11" powershell -Command "Get-AppxPackage *bingweather* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="12" powershell -Command "Get-AppxPackage *yourphone* | Remove-AppxPackage" & pause & goto app
+if "%appchoice%"=="13" winget install --id Google.Chrome -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="14" winget install --id Mozilla.Firefox -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="15" winget install --id VideoLAN.VLC -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="16" winget install --id 7zip.7zip -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="17" winget install --id Notepad++.Notepad++ -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="18" winget install --id Microsoft.VisualStudioCode -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="19" winget install --id Discord.Discord -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="20" winget install --id Valve.Steam -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="21" winget install --id Spotify.Spotify -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="22" winget install --id Adobe.Acrobat.Reader.64-bit -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="23" winget install --id LibreOffice.LibreOffice -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="24" winget install --id qBittorrent.qBittorrent -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="25" winget install --id CPUID.CPU-Z -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="26" winget install --id CPUID.HWMonitor -e --accept-source-agreements & pause & goto app
+if "%appchoice%"=="27" winget upgrade --all & pause & goto app
+if "%appchoice%"=="28" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SilentInstalledAppsEnabled" /t REG_DWORD /d 0 /f & pause & goto app
+if "%appchoice%"=="29" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\ContentDeliveryManager" /v "SubscribedContent-310093Enabled" /t REG_DWORD /d 0 /f & pause & goto app
+if "%appchoice%"=="30" taskkill /f /im OneDrive.exe & %SystemRoot%\System32\OneDriveSetup.exe /uninstall & pause & goto app
+if "%appchoice%"=="31" reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /v "AllowAllTrustedApps" /t REG_DWORD /d 1 /f & pause & goto app
+if "%appchoice%"=="32" powershell -Command "Get-ChildItem 'C:\Windows\Installer' -Filter *.msi | ForEach-Object { if (!(Test-Path $_.FullName)) { Remove-Item $_.FullName -Force } }" & pause & goto app
+if "%appchoice%"=="33" powershell -Command "Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\AppXManifest.xml\"}" & pause & goto app
+if "%appchoice%"=="0"  goto menu
+
+if "%appchoice%"=="0"  goto menu
+goto app
