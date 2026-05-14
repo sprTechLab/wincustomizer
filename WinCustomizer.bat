@@ -17,11 +17,19 @@ echo [0] ESCI
 echo ======================================================
 set /p choice=Scegli un'opzione (0-6):
 
+if "%choice%"=="1" goto manutenzione
+if "%choice%"=="2" goto privacy
+if "%choice%"=="3" goto ui_custom
+if "%choice%"=="4" goto performance
+if "%choice%"=="5" goto app_manager
+if "%choice%"=="6" goto sicurezza
+if "%choice%"=="0" exit
+echo Opzione non valida, riprova. & pause & goto menu
 
 :manutenzione
 cls
 echo ======================================================
-echo             Manutenzione sistema - WinCustomizer
+echo          Manutenzione sistema - WinCustomizer
 echo ======================================================
 echo [1]  Esegui SFC (System File Checker)
 echo [2]  Esegui DISM (ScanHealth)
