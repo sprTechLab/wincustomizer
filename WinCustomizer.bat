@@ -300,7 +300,6 @@ echo [0]  Torna al menu principale
 echo ======================================================
 set /p appchoice=Seleziona un'operazione (0-33): 
 
-:: Logica di esecuzione (Esempi principali)
 if "%appchoice%"=="1"  powershell -Command "Get-AppxPackage -AllUsers | Where-Object {$_.Name -match 'Advertising|FeedbackHub|Zune|OfficeHub'} | Remove-AppxPackage" & pause & goto app
 if "%appchoice%"=="2"  powershell -Command "Get-AppxPackage *solitairecollection* | Remove-AppxPackage" & pause & goto app
 if "%appchoice%"=="3"  powershell -Command "Get-AppxPackage *skypeapp* | Remove-AppxPackage" & pause & goto app
@@ -334,7 +333,5 @@ if "%appchoice%"=="30" taskkill /f /im OneDrive.exe & %SystemRoot%\System32\OneD
 if "%appchoice%"=="31" reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\AppModelUnlock" /v "AllowAllTrustedApps" /t REG_DWORD /d 1 /f & pause & goto app
 if "%appchoice%"=="32" powershell -Command "Get-ChildItem 'C:\Windows\Installer' -Filter *.msi | ForEach-Object { if (!(Test-Path $_.FullName)) { Remove-Item $_.FullName -Force } }" & pause & goto app
 if "%appchoice%"=="33" powershell -Command "Get-AppxPackage -allusers Microsoft.WindowsStore | Foreach {Add-AppxPackage -DisableDevelopmentMode -Register \"$($_.InstallLocation)\AppXManifest.xml\"}" & pause & goto app
-if "%appchoice%"=="0"  goto menu
-
 if "%appchoice%"=="0"  goto menu
 goto app
