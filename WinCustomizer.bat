@@ -11,8 +11,8 @@ echo [1] MANUTENZIONE SISTEMA (SFC, DISM, Pulizia Disco)
 echo [2] PRIVACY E TELEMETRIA (Disabilita tracking)
 echo [3] PERSONALIZZAZIONE UI (Menu Start, Taskbar, Context Menu)
 echo [4] OTTIMIZZAZIONE PERFORMANCE (Gaming, Power Plans)
-echo [5] GESTIONE APP (Rimuovi Bloatware, Installa Essential)
-echo [6] SICUREZZA (Windows Defender, Aggiornamenti)
+echo [5] GESTIONE APP (Rimuovi bloatware, installa essentials)
+echo [6] SICUREZZA (Windows Defender, aggiornamenti)
 echo [0] ESCI
 echo ======================================================
 set /p choice=Scegli un'opzione (0-6):
@@ -127,3 +127,76 @@ if "%privchoice%"=="0"  goto menu
 echo Scelta non valida.
 timeout /t 2 >nul
 goto privacy
+
+:ui_custom
+cls
+echo ======================================================
+echo          Personalizzazione UI - WinCustomizer
+echo ======================================================
+echo [1]  Ripristina menu contestuale classico (Win10 style)
+echo [2]  Ripristina menu contestuale moderno (Win11 default)
+echo [3]  Allinea icone taskbar a sinistra
+echo [4]  Allinea icone taskbar al centro (Default)
+echo [5]  Disabilita widget della taskbar
+echo [6]  Abilita widget della taskbar
+echo [7]  Nascondi icona ricerca dalla taskbar
+echo [8]  Mostra icona ricerca nella taskbar
+echo [9]  Disabilita chat (Microsoft Teams) dalla taskbar
+echo [10] Nascondi icone di sistema sul desktop (Cestino, PC, etc.)
+echo [11] Mostra icone di sistema sul desktop
+echo [12] Disabilita trasparenza (Effetti mica e acrilico)
+echo [13] Abilita trasparenza di sistema
+echo [14] Rimpicciolisci icone della taskbar (Small mode)
+echo [15] Taskbar dimensioni standard
+echo [16] Disabilita suggerimenti nel menu Start
+echo [17] Disabilita animazioni di Windows
+echo [18] Abilita animazioni di Windows
+echo [19] Rimuovi il suffisso "- Collegamento" dai nuovi link
+echo [20] Mostra estensioni file conosciuti in Esplora File
+echo [21] Mostra file, cartelle e drive nascosti
+echo [22] Apri Esplora File su "Questo PC" invece di "Home"
+echo [23] Disabilita i suoni di sistema
+echo [24] Disabilita schermata di blocco (Lock screen)
+echo [25] Abilita il "God Mode" sul desktop
+echo [26] Rimuovi filigrana "Requisiti di sistema non soddisfatti"
+echo [27] Cambia tema in Dark Mode (Sistema e App)
+echo [28] Cambia tema in Light Mode (Sistema e App)
+echo [29] Riavvia il processo Explorer (Per applicare modifiche)
+echo [0]  Torna al menu principale
+echo ======================================================
+set /p uichoice=Seleziona un'operazione (0-29): 
+
+if "%uichoice%"=="1"  reg add "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}\InprocServer32" /f /ve & goto ui_custom
+if "%uichoice%"=="2"  reg delete "HKCU\Software\Classes\CLSID\{86ca1aa0-34aa-4e8b-a509-50c905bae2a2}" /f & goto ui_custom
+if "%uichoice%"=="3"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarAl /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="4"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarAl /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="5"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDa /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="6"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarDa /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="7"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="8"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Search" /v SearchboxTaskbarMode /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="9"  reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarMn /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="10" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="11" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\HideDesktopIcons\NewStartPanel" /v "{20D04FE0-3AEA-1069-A2D8-08002B30309D}" /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="12" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v EnableTransparency /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="13" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize" /v EnableTransparency /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="14" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSi /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="15" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v TaskbarSi /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="16" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Start_IrisRecommendations /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="17" reg add "HKCU\Control Panel\Desktop" /v UserPreferencesMask /t REG_BINARY /d 9012028010000000 /f & goto ui_custom
+if "%uichoice%"=="18" reg add "HKCU\Control Panel\Desktop" /v UserPreferencesMask /t REG_BINARY /d 9e3e078012000000 /f & goto ui_custom
+if "%uichoice%"=="19" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer" /v link /t REG_BINARY /d 00000000 /f & goto ui_custom
+if "%uichoice%"=="20" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v HideFileExt /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="21" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v Hidden /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="22" reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Explorer\Advanced" /v LaunchTo /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="23" reg add "HKCU\AppEvents\Schemes" /ve /t REG_SZ /d ".None" /f & goto ui_custom
+if "%uichoice%"=="24" reg add "HKLM\SOFTWARE\Policies\Microsoft\Windows\Personalization" /v NoLockScreen /t REG_DWORD /d 1 /f & goto ui_custom
+if "%uichoice%"=="25" mkdir "%userprofile%\Desktop\GodMode.{ED7BA470-8E54-465E-825C-99712043E01C}" & goto ui_custom
+if "%uichoice%"=="26" reg add "HKCU\Control Panel\UnsupportedHardwareNotificationCache" /v SV2 /t REG_DWORD /d 0 /f & goto ui_custom
+if "%uichoice%"=="27" powershell -Command "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name SystemUsesLightTheme -Value 0; Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name AppsUseLightTheme -Value 0" & goto ui_custom
+if "%uichoice%"=="28" powershell -Command "Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name SystemUsesLightTheme -Value 1; Set-ItemProperty -Path 'HKCU:\Software\Microsoft\Windows\CurrentVersion\Themes\Personalize' -Name AppsUseLightTheme -Value 1" & goto ui_custom
+if "%uichoice%"=="29" taskkill /f /im explorer.exe & start explorer.exe & goto ui_custom
+if "%uichoice%"=="0"  goto menu
+
+echo Scelta non valida.
+timeout /t 2 >nul
+goto ui_custom
